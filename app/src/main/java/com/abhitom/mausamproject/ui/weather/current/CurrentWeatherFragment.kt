@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.abhitom.mausamproject.data.OpenWeatherAPIRetrofitClient
+import androidx.lifecycle.Observer
+import com.abhitom.mausamproject.data.network.OpenWeatherAPIRetrofitClient
+import com.abhitom.mausamproject.data.network.WeatherNetworkDataSourceImpl
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
 import com.abhitom.mausamproject.databinding.CurrentWeatherFragmentBinding
 import retrofit2.Call
@@ -34,23 +36,13 @@ class CurrentWeatherFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
 
-        OpenWeatherAPIRetrofitClient.instance.openWeatherAPIService.oneCallApi(33.441792,94.037689 , "metric")
-                .enqueue(object : Callback<OneCallResponse> {
-                    override fun onResponse(
-                            call: Call<OneCallResponse>,
-                            response: Response<OneCallResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            binding.tvCurrentWeatherFragment.text= response.body().toString()
-                        } else {
-                            Toast.makeText(context,response.errorBody().toString(),Toast.LENGTH_SHORT).show()
-                        }
-                    }
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(this.requireContext())
 
-                    override fun onFailure(call: Call<OneCallResponse>, t: Throwable) {
-                        Toast.makeText(context,"No Internet / Server Down",Toast.LENGTH_SHORT).show()
-                    }
-                })
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(this.viewLifecycleOwner, Observer {
+            binding.tvCurrentWeatherFragment.text = it.toString()
+        })
+
+        weatherNetworkDataSource.fetchCurrentWeather(33.441792,94.037689,"metric")
     }
 
 }

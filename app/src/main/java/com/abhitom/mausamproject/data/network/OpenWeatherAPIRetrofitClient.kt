@@ -1,4 +1,4 @@
-package com.abhitom.mausamproject.data
+package com.abhitom.mausamproject.data.network
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class OpenWeatherAPIRetrofitClient {
 
-    val openWeatherAPIService:OpenWeatherAPIService
+    val openWeatherAPIService: OpenWeatherAPIService
     val apiKey="22147f19dfcc656710c95cabb152527a"
 
     companion object {

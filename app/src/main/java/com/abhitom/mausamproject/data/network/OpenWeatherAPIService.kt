@@ -1,4 +1,4 @@
-package com.abhitom.mausamproject.data
+package com.abhitom.mausamproject.data.network
 
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
 import com.abhitom.mausamproject.data.network.response.ReverseGeoCodingResponse
