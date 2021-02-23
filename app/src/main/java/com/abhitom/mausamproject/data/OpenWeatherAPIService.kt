@@ -1,8 +1,7 @@
 package com.abhitom.mausamproject.data
 
-import com.abhitom.mausamproject.data.response.OneCallResponse
-import com.abhitom.mausamproject.data.response.ReverseGeoCodingResponse
-import kotlinx.coroutines.Deferred
+import com.abhitom.mausamproject.data.network.response.OneCallResponse
+import com.abhitom.mausamproject.data.network.response.ReverseGeoCodingResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

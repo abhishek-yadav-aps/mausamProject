@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.abhitom.mausamproject.data.OpenWeatherAPIRetrofitClient
-import com.abhitom.mausamproject.data.response.OneCallResponse
+import com.abhitom.mausamproject.data.network.response.OneCallResponse
 import com.abhitom.mausamproject.databinding.CurrentWeatherFragmentBinding
 import retrofit2.Call
 import retrofit2.Callback
