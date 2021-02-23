@@ -51,7 +51,7 @@ class OpenWeatherAPIRetrofitClient {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        openWeatherAPIService=retrofitClient.create(OpenWeatherAPIService::class.java)
+        openWeatherAPIService = retrofitClient.create(OpenWeatherAPIService::class.java)
 
     }
     

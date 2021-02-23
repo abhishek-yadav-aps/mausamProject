@@ -27,7 +27,7 @@ class CurrentWeatherFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = CurrentWeatherFragmentBinding.inflate(inflater, container, false)
-        return binding!!.root
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,7 +40,6 @@ class CurrentWeatherFragment : Fragment() {
                             call: Call<OneCallResponse>,
                             response: Response<OneCallResponse>
                     ) {
-
                         if (response.isSuccessful) {
                             binding.tvCurrentWeatherFragment.text= response.body().toString()
                         } else {

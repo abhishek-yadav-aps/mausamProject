@@ -93,6 +93,7 @@ dependencies {
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
 
     testImplementation 'junit:junit:4.13.2'
