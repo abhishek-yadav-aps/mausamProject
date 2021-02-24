@@ -1,7 +1,6 @@
 package com.abhitom.mausamproject.data.network
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.abhitom.mausamproject.data.network.response.OneCallResponse

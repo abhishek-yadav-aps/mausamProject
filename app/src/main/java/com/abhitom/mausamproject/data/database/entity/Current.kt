@@ -2,10 +2,7 @@ package com.abhitom.mausamproject.data.database.entity
 
 import androidx.room.*
 import com.abhitom.mausamproject.internal.Converters
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
-
 
 const val CURRENT_WEATHER_ID = 0
 
@@ -42,8 +39,6 @@ data class Current(
         @field:SerializedName("sunset")
         val sunset: Long? = null,
 
-//        @Embedded
-//        @TypeConverters(Converters::class)
         @TypeConverters(Converters::class)
         @field:SerializedName("weather")
         val weather: MutableList<WeatherItem?>? = null,
