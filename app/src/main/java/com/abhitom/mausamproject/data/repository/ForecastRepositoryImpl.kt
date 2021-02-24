@@ -22,21 +22,21 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getCurrentWeather(): LiveData<Current> {
+    override suspend fun getCurrentWeather(units:String): LiveData<Current> {
         return withContext(Dispatchers.IO) {
-            initWeatherData()
+            initWeatherData(units)
             return@withContext currentWeatherDao.getWeather()
         }
     }
 
-    private suspend fun initWeatherData() {
+    private suspend fun initWeatherData(units: String) {
         if (isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1))){
-            fetchCurrentWeather()
+            fetchCurrentWeather(units)
         }
     }
 
-    private suspend fun fetchCurrentWeather(){
-        weatherNetworkDataSource.fetchCurrentWeather(33.441792,94.037689,"metric")
+    private suspend fun fetchCurrentWeather(units: String) {
+        weatherNetworkDataSource.fetchCurrentWeather(33.441792,94.037689,units)
     }
 
     private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean{

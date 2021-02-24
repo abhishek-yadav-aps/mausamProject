@@ -4,5 +4,5 @@ import androidx.lifecycle.LiveData
 import com.abhitom.mausamproject.data.database.entity.Current
 
 interface ForecastRepository {
-    suspend fun getCurrentWeather(): LiveData<Current>
+    suspend fun getCurrentWeather(units:String): LiveData<Current>
 }

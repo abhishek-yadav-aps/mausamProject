@@ -17,7 +17,7 @@ class WeatherNetworkDataSourceImpl(context: Context) : WeatherNetworkDataSource 
         get() = _downloadedCurrentWeather
 
     override fun fetchCurrentWeather(lat: Double, lon: Double, units: String) {
-        Toast.makeText(appContext,"RUN ",Toast.LENGTH_LONG).show()
+
         OpenWeatherAPIRetrofitClient.instance.openWeatherAPIService.oneCallApi(lat,lon , units)
                 .enqueue(object : Callback<OneCallResponse> {
                     override fun onResponse(
@@ -26,14 +26,13 @@ class WeatherNetworkDataSourceImpl(context: Context) : WeatherNetworkDataSource 
                     ) {
                         if (response.isSuccessful) {
                             _downloadedCurrentWeather.postValue(response.body())
-                            Toast.makeText(appContext,"SUCCESS",Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(appContext,response.errorBody().toString(),Toast.LENGTH_LONG).show()
+
                         }
                     }
 
                     override fun onFailure(call: Call<OneCallResponse>, t: Throwable) {
-                        Toast.makeText(appContext,"NO INTERNET",Toast.LENGTH_LONG).show()
+
                     }
                 })
     }

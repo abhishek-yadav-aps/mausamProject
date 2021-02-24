@@ -40,9 +40,9 @@ data class Current(
     @field:SerializedName("sunset")
     val sunset: Long? = null,
 
-    @Embedded(prefix = "weather_")
-    @field:SerializedName("weather")
-    val weather: List<WeatherItem?>? = null,
+//    @Embedded(prefix = "weather_")
+//    @field:SerializedName("weather")
+//    val weather: List<WeatherItem?>? = null,
 
     @field:SerializedName("humidity")
     val humidity: Int? = null,
@@ -52,4 +52,5 @@ data class Current(
 ){
     @PrimaryKey(autoGenerate = false)
     var id:Int = CURRENT_WEATHER_ID
+    constructor() : this(0, 0.0, 0, 0.0, 0, 0, 0.0, 0,0,0,0,0.0)
 }
