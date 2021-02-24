@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WeatherNetworkDataSourceImpl(context: Context) : weatherNetworkDataSource {
+class WeatherNetworkDataSourceImpl(context: Context) : WeatherNetworkDataSource {
 
     private val appContext=context.applicationContext
     private var _downloadedCurrentWeather = MutableLiveData<OneCallResponse>()
