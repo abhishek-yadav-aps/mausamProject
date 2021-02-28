@@ -36,7 +36,7 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun fetchCurrentWeather(units: String) {
-        weatherNetworkDataSource.fetchCurrentWeather(33.441792,94.037689,units)
+        weatherNetworkDataSource.fetchCurrentWeather(28.7041,77.1025,units)
     }
 
     private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean{

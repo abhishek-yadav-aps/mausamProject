@@ -9,7 +9,13 @@ class CurrentWeatherViewModel(
         private val forecastRepository: ForecastRepository
 ) : ViewModel() {
     private val unitSystem= UnitSystem.METRIC
-
+    val isMetric:Boolean
+    get() {
+        if (unitSystem == UnitSystem.METRIC) {
+            return true
+        }
+        return false
+    }
     val units: String
         get()  {
             if (unitSystem == UnitSystem.METRIC) {
