@@ -65,6 +65,9 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         val currentWeather = viewModel.weather.await()
         currentWeather.observe(viewLifecycleOwner, Observer {
             if (it == null) return@Observer
+
+            binding.pbCurrentLoading.visibility= View.GONE
+            binding.hsvGraph.visibility = View.VISIBLE
             setTempAndFeelsLike(it)
             setEveryThingExceptWind(it)
             setWindData(it)

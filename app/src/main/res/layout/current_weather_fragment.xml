@@ -7,13 +7,22 @@
     android:background="@color/white"
     tools:context=".ui.weather.current.CurrentWeatherFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_current_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_current_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/rainy_day"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,11 +31,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <HorizontalScrollView
+        android:id="@+id/hsv_graph"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="64dp"
         android:fillViewport="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +69,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="24"
         android:textSize="54sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +79,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="C"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/tv_current_temp"
         app:layout_constraintTop_toTopOf="@+id/tv_current_temp" />
@@ -78,7 +87,6 @@
         android:id="@+id/tv_current_feelslike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feels Like 23 C"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +97,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Sunrise\n8 Am"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_current_temp"
@@ -102,7 +109,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Sunset\n6 Pm"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_current_temp"
@@ -125,7 +131,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="wind speed\n34 km/h"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -134,10 +139,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="wind direction\n34"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:drawableStartCompat="@drawable/ic_baseline_north_24" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -160,7 +164,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Pressure\n40 psi"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -169,7 +172,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Humidity\n200"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -178,7 +180,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="UVI\n34"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -187,7 +188,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Visibility\n200"
             android:textAlignment="center"
             android:textSize="18sp" />
     </LinearLayout>
