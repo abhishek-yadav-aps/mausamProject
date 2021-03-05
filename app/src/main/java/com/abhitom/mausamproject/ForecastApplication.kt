@@ -1,9 +1,12 @@
 package com.abhitom.mausamproject
 
 import android.app.Application
+import androidx.preference.PreferenceManager
 import com.abhitom.mausamproject.data.database.ForecastDatabase
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSourceImpl
+import com.abhitom.mausamproject.data.provider.UnitProvider
+import com.abhitom.mausamproject.data.provider.UnitProviderImpl
 import com.abhitom.mausamproject.data.repository.ForecastRepository
 import com.abhitom.mausamproject.data.repository.ForecastRepositoryImpl
 import com.abhitom.mausamproject.ui.weather.current.CurrentWeatherViewModelFactory
@@ -24,11 +27,13 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance())}
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance()) }
-        bind() from provider{ CurrentWeatherViewModelFactory(instance()) }
+        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind() from provider{ CurrentWeatherViewModelFactory(instance(),instance()) }
     }
 
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this,R.xml.preferences,false)
     }
 }
