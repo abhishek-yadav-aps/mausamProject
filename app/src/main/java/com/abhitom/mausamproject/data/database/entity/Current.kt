@@ -31,7 +31,7 @@ data class Current(
         val feelsLike: Double? = null,
 
         @field:SerializedName("dt")
-        val dt: Int? = null,
+        val dt: Long? = null,
 
         @field:SerializedName("wind_deg")
         val windDeg: Int? = null,

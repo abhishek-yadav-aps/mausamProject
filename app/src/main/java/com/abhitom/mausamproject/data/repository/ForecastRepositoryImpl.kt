@@ -5,15 +5,16 @@ import com.abhitom.mausamproject.data.database.CurrentWeatherDao
 import com.abhitom.mausamproject.data.database.entity.Current
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
+import com.abhitom.mausamproject.data.provider.LastTimeDataFetched
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.ZonedDateTime
 
 class ForecastRepositoryImpl(
         private val currentWeatherDao: CurrentWeatherDao,
-        private val weatherNetworkDataSource: WeatherNetworkDataSource
+        private val weatherNetworkDataSource: WeatherNetworkDataSource,
+        private val lastTimeDataFetched: LastTimeDataFetched
 ) : ForecastRepository {
 
     init {
@@ -30,7 +31,8 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(units: String) {
-        if (isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1))){
+
+        if (isFetchCurrentNeeded(lastTimeDataFetched.getCurrentLastTime())){
             fetchCurrentWeather(units)
         }
     }
@@ -39,13 +41,13 @@ class ForecastRepositoryImpl(
         weatherNetworkDataSource.fetchCurrentWeather(28.7041,77.1025,units)
     }
 
-    private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean{
-        val thirtyMinuteAgo = ZonedDateTime.now().minusMinutes(30)
-        return lastFetchTime.isBefore(thirtyMinuteAgo)
+    private fun isFetchCurrentNeeded(lastFetchTime: Long) : Boolean{
+        return System.currentTimeMillis().minus(lastFetchTime)>1800000
     }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: OneCallResponse){
         GlobalScope.launch(Dispatchers.IO) {
+            lastTimeDataFetched.setCurrentLastTime(System.currentTimeMillis())
             currentWeatherDao.upsert(fetchedWeather.current!!)
         }
     }

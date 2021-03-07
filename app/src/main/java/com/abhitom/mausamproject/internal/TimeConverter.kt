@@ -23,6 +23,9 @@ class TimeConverter {
         val timeInDate = Date(time)
         return SimpleDateFormat("hh:mm a").format(timeInDate)
     }
+    fun convertToMinute(lastTime:Long, updatedTime:Long) {
+
+    }
     fun convertToDate(time:Long){
 
     }

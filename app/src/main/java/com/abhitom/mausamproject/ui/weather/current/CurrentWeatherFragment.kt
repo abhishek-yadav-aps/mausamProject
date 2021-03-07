@@ -175,11 +175,11 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         val visibility="Visibility\n"+currentWeather.visibility.toString() + " " +"m"
         var sunrise=""
         if (currentWeather.sunrise!=null) {
-            sunrise = "Sunrise\n" + TimeConverter.instance.convertToFormalTime(currentWeather.sunrise)
+            sunrise = "Sunrise\n" + TimeConverter.instance.convertToFormalTime(currentWeather.sunrise*1000)
         }
         var sunset=""
         if (currentWeather.sunset!=null) {
-            sunset = "Sunset\n" + TimeConverter.instance.convertToFormalTime(currentWeather.sunset)
+            sunset = "Sunset\n" + TimeConverter.instance.convertToFormalTime(currentWeather.sunset*1000)
         }
 
         binding.tvCurrentHumidity.text = humidity

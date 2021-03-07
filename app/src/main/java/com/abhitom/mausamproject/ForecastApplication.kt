@@ -5,6 +5,8 @@ import androidx.preference.PreferenceManager
 import com.abhitom.mausamproject.data.database.ForecastDatabase
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSourceImpl
+import com.abhitom.mausamproject.data.provider.LastTimeDataFetched
+import com.abhitom.mausamproject.data.provider.LastTimeDataFetchedImpl
 import com.abhitom.mausamproject.data.provider.UnitProvider
 import com.abhitom.mausamproject.data.provider.UnitProviderImpl
 import com.abhitom.mausamproject.data.repository.ForecastRepository
@@ -26,7 +28,8 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance())}
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance()) }
+        bind<LastTimeDataFetched>() with singleton { LastTimeDataFetchedImpl(instance()) }
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider{ CurrentWeatherViewModelFactory(instance(),instance()) }
     }

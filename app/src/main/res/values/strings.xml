@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MausamProject</string>
+    <string name="parent_package_name">com.abhitom.mausamproject</string>
 </resources>
