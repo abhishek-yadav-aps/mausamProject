@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
+import com.abhitom.mausamproject.internal.ToastMaker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WeatherNetworkDataSourceImpl(context: Context) : WeatherNetworkDataSource {
+class WeatherNetworkDataSourceImpl(context: Context,
+    private val toastMaker: ToastMaker
+    ) : WeatherNetworkDataSource {
 
     private val appContext=context.applicationContext
     private var _downloadedCurrentWeather = MutableLiveData<OneCallResponse>()
@@ -26,12 +29,12 @@ class WeatherNetworkDataSourceImpl(context: Context) : WeatherNetworkDataSource 
                         if (response.isSuccessful) {
                             _downloadedCurrentWeather.postValue(response.body())
                         } else {
-
+                            //toastMaker.toastMaker("ERROR CODE - ${response.code()}")
                         }
                     }
 
                     override fun onFailure(call: Call<OneCallResponse>, t: Throwable) {
-
+                        //toastMaker.toastMaker("NO INTERNET")
                     }
                 })
     }

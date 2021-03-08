@@ -11,6 +11,8 @@ import com.abhitom.mausamproject.data.provider.UnitProvider
 import com.abhitom.mausamproject.data.provider.UnitProviderImpl
 import com.abhitom.mausamproject.data.repository.ForecastRepository
 import com.abhitom.mausamproject.data.repository.ForecastRepositoryImpl
+import com.abhitom.mausamproject.internal.ToastMaker
+import com.abhitom.mausamproject.internal.ToastMakerImpl
 import com.abhitom.mausamproject.ui.weather.current.CurrentWeatherViewModelFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
@@ -27,7 +29,8 @@ class ForecastApplication : Application(), KodeinAware {
 
         bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
-        bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance())}
+        bind<ToastMaker>() with singleton { ToastMakerImpl(instance()) }
+        bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance(),instance())}
         bind<LastTimeDataFetched>() with singleton { LastTimeDataFetchedImpl(instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }

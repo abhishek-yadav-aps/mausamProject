@@ -3,11 +3,9 @@ package com.abhitom.mausamproject.ui.weather.current
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.abhitom.mausamproject.R
@@ -27,7 +25,6 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import java.util.*
-
 
 class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 

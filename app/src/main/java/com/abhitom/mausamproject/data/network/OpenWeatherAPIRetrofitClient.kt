@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class OpenWeatherAPIRetrofitClient {
 
     val openWeatherAPIService: OpenWeatherAPIService
-    val apiKey="22147f19dfcc656710c95cabb152527a"
+    private val apiKey="22147f19dfcc656710c95cabb152527a"
 
     companion object {
         private var openWeatherAPIRetrofitClient: OpenWeatherAPIRetrofitClient? = null

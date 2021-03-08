@@ -2,7 +2,6 @@ package com.abhitom.mausamproject.data.network.response
 
 import com.google.gson.annotations.SerializedName
 
-
 data class ReverseGeoCodingResponse(
 
 	@field:SerializedName("country")

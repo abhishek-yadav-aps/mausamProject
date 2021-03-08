@@ -31,7 +31,6 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(units: String) {
-
         if (isFetchCurrentNeeded(lastTimeDataFetched.getCurrentLastTime())){
             fetchCurrentWeather(units)
         }
