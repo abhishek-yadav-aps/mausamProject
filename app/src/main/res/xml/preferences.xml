@@ -8,12 +8,6 @@
             android:summary="Allow the app to get your location"
             android:defaultValue="true"
             android:disableDependentsState="true"/>
-        <EditTextPreference
-            android:key="CUSTOM_LOCATION"
-            android:title="Location"
-            android:summary="The Location for which the weather is displayed"
-            android:defaultValue="Delhi"
-            android:dependency="USE_DEVICE_LOCATION"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Units">

@@ -5,7 +5,9 @@ import com.abhitom.mausamproject.data.database.CurrentWeatherDao
 import com.abhitom.mausamproject.data.database.entity.Current
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
+import com.abhitom.mausamproject.data.provider.LastLocation
 import com.abhitom.mausamproject.data.provider.LastTimeDataFetched
+import com.abhitom.mausamproject.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,7 +16,9 @@ import kotlinx.coroutines.withContext
 class ForecastRepositoryImpl(
         private val currentWeatherDao: CurrentWeatherDao,
         private val weatherNetworkDataSource: WeatherNetworkDataSource,
-        private val lastTimeDataFetched: LastTimeDataFetched
+        private val lastTimeDataFetched: LastTimeDataFetched,
+        private val lastLocation: LastLocation,
+        private val locationProvider: LocationProvider
 ) : ForecastRepository {
 
     init {
@@ -31,13 +35,18 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(units: String) {
-        if (isFetchCurrentNeeded(lastTimeDataFetched.getCurrentLastTime())){
+        if (locationProvider.hasLocationChanged(lastLocation.getLastLocation())){
+            fetchCurrentWeather(units)
+        }
+        else if (isFetchCurrentNeeded(lastTimeDataFetched.getCurrentLastTime())){
             fetchCurrentWeather(units)
         }
     }
 
     private suspend fun fetchCurrentWeather(units: String) {
-        weatherNetworkDataSource.fetchCurrentWeather(28.7041,77.1025,units)
+        val location=locationProvider.getPrefLocation()
+        weatherNetworkDataSource.fetchCurrentWeather(location.first,location.second,units)
+        lastLocation.setLastLocation(location)
     }
 
     private fun isFetchCurrentNeeded(lastFetchTime: Long) : Boolean{

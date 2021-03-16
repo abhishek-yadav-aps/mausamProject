@@ -1,19 +1,18 @@
 package com.abhitom.mausamproject
 
 import android.app.Application
+import android.content.Context
 import androidx.preference.PreferenceManager
 import com.abhitom.mausamproject.data.database.ForecastDatabase
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSourceImpl
-import com.abhitom.mausamproject.data.provider.LastTimeDataFetched
-import com.abhitom.mausamproject.data.provider.LastTimeDataFetchedImpl
-import com.abhitom.mausamproject.data.provider.UnitProvider
-import com.abhitom.mausamproject.data.provider.UnitProviderImpl
+import com.abhitom.mausamproject.data.provider.*
 import com.abhitom.mausamproject.data.repository.ForecastRepository
 import com.abhitom.mausamproject.data.repository.ForecastRepositoryImpl
 import com.abhitom.mausamproject.internal.ToastMaker
 import com.abhitom.mausamproject.internal.ToastMakerImpl
 import com.abhitom.mausamproject.ui.weather.current.CurrentWeatherViewModelFactory
+import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -31,8 +30,11 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind<ToastMaker>() with singleton { ToastMakerImpl(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance(),instance())}
+        bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
+        bind<LocationProvider>() with singleton{LocationProviderImpl(instance(),instance())}
+        bind<LastLocation>() with singleton { LastLocationImpl(instance()) }
         bind<LastTimeDataFetched>() with singleton { LastTimeDataFetchedImpl(instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance()) }
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider{ CurrentWeatherViewModelFactory(instance(),instance()) }
     }
