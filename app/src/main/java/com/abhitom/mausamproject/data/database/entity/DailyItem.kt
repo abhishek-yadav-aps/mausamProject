@@ -1,12 +1,19 @@
 package com.abhitom.mausamproject.data.database.entity
 
+import androidx.room.*
+import com.abhitom.mausamproject.internal.Converters
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "future_weather", indices = [Index(value = ["dt"],unique = true)])
 data class DailyItem(
+
+    @PrimaryKey(autoGenerate = true)
+    val id:Int?=null,
 
     @field:SerializedName("sunrise")
     val sunrise: Long? = null,
 
+    @Embedded(prefix = "temp_")
     @field:SerializedName("temp")
     val temp: Temp? = null,
 
@@ -19,6 +26,7 @@ data class DailyItem(
     @field:SerializedName("clouds")
     val clouds: Int? = null,
 
+    @Embedded(prefix = "feels_like_")
     @field:SerializedName("feels_like")
     val feelsLike: FeelsLike? = null,
 
@@ -31,8 +39,9 @@ data class DailyItem(
     @field:SerializedName("sunset")
     val sunset: Long? = null,
 
+    @TypeConverters(Converters::class)
     @field:SerializedName("weather")
-    val weather: List<WeatherItem?>? = null,
+    val weather: MutableList<WeatherItem?>? = null,
 
     @field:SerializedName("humidity")
     val humidity: Int? = null,

@@ -28,6 +28,7 @@ class WeatherNetworkDataSourceImpl(context: Context,
                     ) {
                         if (response.isSuccessful) {
                             _downloadedCurrentWeather.postValue(response.body())
+
                         } else {
                             //toastMaker.toastMaker("ERROR CODE - ${response.code()}")
                         }
@@ -37,5 +38,7 @@ class WeatherNetworkDataSourceImpl(context: Context,
                         //toastMaker.toastMaker("NO INTERNET")
                     }
                 })
+
+
     }
 }
