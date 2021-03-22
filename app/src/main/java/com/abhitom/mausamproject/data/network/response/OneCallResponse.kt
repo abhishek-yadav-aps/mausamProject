@@ -14,7 +14,7 @@ data class OneCallResponse(
 	val timezone: String? = null,
 
 	@field:SerializedName("daily")
-	val daily: List<DailyItem?>? = null,
+	val daily: List<DailyItem>? = null,
 
 	@field:SerializedName("lon")
 	val lon: Double? = null,

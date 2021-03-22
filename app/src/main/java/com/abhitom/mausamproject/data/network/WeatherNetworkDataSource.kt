@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
 
 interface WeatherNetworkDataSource {
-    val downloadedCurrentWeather: LiveData<OneCallResponse>
+    val downloadedWeather: LiveData<OneCallResponse>
 
-    fun fetchCurrentWeather(
+    fun fetchWeather(
             lat:Double,
             lon:Double,
             units:String

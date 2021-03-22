@@ -14,11 +14,11 @@ class WeatherNetworkDataSourceImpl(context: Context,
     ) : WeatherNetworkDataSource {
 
     private val appContext=context.applicationContext
-    private var _downloadedCurrentWeather = MutableLiveData<OneCallResponse>()
-    override val downloadedCurrentWeather: LiveData<OneCallResponse>
-        get() = _downloadedCurrentWeather
+    private var _downloadedWeather = MutableLiveData<OneCallResponse>()
+    override val downloadedWeather: LiveData<OneCallResponse>
+        get() = _downloadedWeather
 
-    override fun fetchCurrentWeather(lat: Double, lon: Double, units: String) {
+    override fun fetchWeather(lat: Double, lon: Double, units: String) {
 
         OpenWeatherAPIRetrofitClient.instance.openWeatherAPIService.oneCallApi(lat,lon , units)
                 .enqueue(object : Callback<OneCallResponse> {
@@ -27,7 +27,7 @@ class WeatherNetworkDataSourceImpl(context: Context,
                             response: Response<OneCallResponse>
                     ) {
                         if (response.isSuccessful) {
-                            _downloadedCurrentWeather.postValue(response.body())
+                            _downloadedWeather.postValue(response.body())
 
                         } else {
                             //toastMaker.toastMaker("ERROR CODE - ${response.code()}")
