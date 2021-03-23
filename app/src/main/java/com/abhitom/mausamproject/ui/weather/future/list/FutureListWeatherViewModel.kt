@@ -11,4 +11,7 @@ class FutureListWeatherViewModel(
     val weather by lazyDeferred {
         forecastRepository.getFutureWeatherList(System.currentTimeMillis()/1000,super.units)
     }
+    val location by lazyDeferred {
+        forecastRepository.getCurrentLocation(super.units)
+    }
 }

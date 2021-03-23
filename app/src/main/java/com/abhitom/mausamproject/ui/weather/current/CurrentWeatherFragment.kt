@@ -62,6 +62,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
     private fun bindUi() = launch(Dispatchers.Main){
         val currentWeather = viewModel.weather.await()
+        val currentLocation = viewModel.location.await()
         try {
             currentWeather.observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
@@ -73,6 +74,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
                 setWindData(it)
                 setWeatherImage(it)
             })
+
+            currentLocation.observe(viewLifecycleOwner, Observer {
+                if (it == null) return@Observer
+                val loc=it.name+", "+it.country
+                binding.tvCurrentLocation.text=loc
+            })
+
         }catch (e:IllegalStateException){
             Log.i("EXCEPTION",e.message.toString())
         }

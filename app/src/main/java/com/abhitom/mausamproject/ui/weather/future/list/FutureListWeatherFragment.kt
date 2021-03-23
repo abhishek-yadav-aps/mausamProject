@@ -50,6 +50,7 @@ class  FutureListWeatherFragment : ScopedFragment(), KodeinAware {
         }
 
         val futureWeather = viewModel.weather.await()
+        val currentLocation = viewModel.location.await()
         try {
             futureWeather.observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
@@ -61,6 +62,13 @@ class  FutureListWeatherFragment : ScopedFragment(), KodeinAware {
                 graphDecorator = FutureWeatherListCurlyItemDecorator(it, this@FutureListWeatherFragment.requireContext())
                 graphDecorator?.let { gd -> binding.rvFutureList.addItemDecoration(gd) }
             })
+
+            currentLocation.observe(viewLifecycleOwner, Observer {
+                if (it == null) return@Observer
+                val loc=it.name+", "+it.country
+                binding.tvFutureLocation.text=loc
+            })
+
         }catch (e:IllegalStateException){
             Log.i("EXCEPTION",e.message.toString())
         }
