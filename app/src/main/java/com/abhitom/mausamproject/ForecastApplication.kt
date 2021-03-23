@@ -13,6 +13,7 @@ import com.abhitom.mausamproject.internal.ToastMaker
 import com.abhitom.mausamproject.internal.ToastMakerImpl
 import com.abhitom.mausamproject.ui.weather.current.CurrentWeatherViewModelFactory
 import com.abhitom.mausamproject.ui.weather.future.list.FutureListWeatherViewModelFactory
+import com.abhitom.mausamproject.ui.weather.future.list.FutureWeatherListCurlyItemDecorator
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein

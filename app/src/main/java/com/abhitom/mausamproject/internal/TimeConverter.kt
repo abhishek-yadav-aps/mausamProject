@@ -23,10 +23,12 @@ class TimeConverter {
         val timeInDate = Date(time)
         return SimpleDateFormat("hh:mm a").format(timeInDate)
     }
-    fun convertToMinute(lastTime:Long, updatedTime:Long) {
-
+    fun convertToDay(time:Long):String{
+        val timeInDate = Date(time)
+        return SimpleDateFormat("EEEE").format(timeInDate)
     }
-    fun convertToDate(time:Long){
-
+    fun convertToDate(time:Long):String{
+        val timeInDate = Date(time)
+        return SimpleDateFormat("dd/MM").format(timeInDate)
     }
 }

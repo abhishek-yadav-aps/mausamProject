@@ -3,6 +3,7 @@ package com.abhitom.mausamproject.ui.weather.current
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -58,18 +60,23 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         buildGraph(values)
     }
 
-    private fun bindUi() = launch{
+    private fun bindUi() = launch(Dispatchers.Main){
         val currentWeather = viewModel.weather.await()
-        currentWeather.observe(viewLifecycleOwner, Observer {
-            if (it == null) return@Observer
+        try {
+            currentWeather.observe(viewLifecycleOwner, Observer {
+                if (it == null) return@Observer
 
-            binding.pbCurrentLoading.visibility= View.GONE
-            binding.hsvGraph.visibility = View.VISIBLE
-            setTempAndFeelsLike(it)
-            setEveryThingExceptWind(it)
-            setWindData(it)
-            setWeatherImage(it)
-        })
+                binding.pbCurrentLoading.visibility = View.GONE
+                binding.hsvGraph.visibility = View.VISIBLE
+                setTempAndFeelsLike(it)
+                setEveryThingExceptWind(it)
+                setWindData(it)
+                setWeatherImage(it)
+            })
+        }catch (e:IllegalStateException){
+            Log.i("EXCEPTION",e.message.toString())
+        }
+
     }
 
     private fun setWeatherImage(currentWeather: Current) {
