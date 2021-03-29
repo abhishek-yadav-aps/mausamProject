@@ -20,7 +20,7 @@ data class OneCallResponse(
 	val lon: Double? = null,
 
 	@field:SerializedName("hourly")
-	val hourly: List<HourlyItem?>? = null,
+	val hourly: List<HourlyItem>? = null,
 
 	@field:SerializedName("lat")
 	val lat: Double? = null

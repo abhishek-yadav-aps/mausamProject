@@ -1,8 +1,15 @@
 package com.abhitom.mausamproject.data.database.entity
 
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "hourly_weather", indices = [Index(value = ["dt"],unique = true)])
 data class HourlyItem(
+
+    @PrimaryKey(autoGenerate = true)
+    val id:Int?=null,
 
     @field:SerializedName("temp")
     val temp: Double? = null,
@@ -23,13 +30,10 @@ data class HourlyItem(
     val feelsLike: Double? = null,
 
     @field:SerializedName("dt")
-    val dt: Int? = null,
+    val dt: Long? = null,
 
     @field:SerializedName("wind_deg")
     val windDeg: Int? = null,
-
-    @field:SerializedName("weather")
-    val weather: List<WeatherItem?>? = null,
 
     @field:SerializedName("humidity")
     val humidity: Int? = null,

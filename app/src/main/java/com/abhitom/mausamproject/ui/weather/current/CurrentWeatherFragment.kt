@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.abhitom.mausamproject.R
 import com.abhitom.mausamproject.data.database.entity.Current
+import com.abhitom.mausamproject.data.database.entity.HourlyItem
 import com.abhitom.mausamproject.databinding.CurrentWeatherFragmentBinding
 import com.abhitom.mausamproject.internal.TimeConverter
 import com.abhitom.mausamproject.ui.base.ScopedFragment
@@ -50,19 +51,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentWeatherViewModel::class.java)
         bindUi()
 
-        val values = mutableListOf<Entry>()
-        values.add(Entry(0f, 3f))
-        values.add(Entry(1f, 0f))
-        values.add(Entry(2f, 6f))
-        values.add(Entry(3f, 9f))
-        values.add(Entry(4f, 2f))
-        values.add(Entry(5f, 8f))
-        buildGraph(values)
+
     }
 
     private fun bindUi() = launch(Dispatchers.Main){
         val currentWeather = viewModel.weather.await()
         val currentLocation = viewModel.location.await()
+        val hourlyWeather = viewModel.hourlyWeather.await()
         try {
             currentWeather.observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
@@ -77,8 +72,15 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
             currentLocation.observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
+
                 val loc=it.name+", "+it.country
                 binding.tvCurrentLocation.text=loc
+            })
+
+            hourlyWeather.observe(viewLifecycleOwner, Observer {
+                if (it == null) return@Observer
+
+                setHourlyWeather(it)
             })
 
         }catch (e:IllegalStateException){
@@ -215,6 +217,16 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         binding.tvCurrentFeelslike.text = feelsLikeTemp
     }
 
+    private fun setHourlyWeather(hourlyWeather: List<HourlyItem>?) {
+        val values = mutableListOf<Entry>()
+        for (i in 0..minOf(7,((hourlyWeather?.size ?: 0) -1))){
+            val hour=TimeConverter.instance.convertToHour(hourlyWeather?.get(i)?.dt!!*1000)
+            val temp= hourlyWeather[i].temp
+            values.add(Entry(hour.toFloat(), temp?.toFloat()!!))
+        }
+        buildGraph(values)
+    }
+
     private fun buildGraph(values: MutableList<Entry>) {
 
         val set = LineDataSet(values, "DataSet 1")
@@ -242,6 +254,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         (data.getDataSetByIndex(0) as LineDataSet).circleHoleColor = color
 
         val xAxisValues: List<String> = listOf("12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM")
+        Log.i("TAGGERR",xAxisValues.toString())
         chart.description.isEnabled = false
         chart.setDrawGridBackground(false)
         chart.setTouchEnabled(false)

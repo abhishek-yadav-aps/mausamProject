@@ -31,6 +31,7 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind() from singleton { instance<ForecastDatabase>().futureWeatherDao() }
+        bind() from singleton { instance<ForecastDatabase>().hourlyLocationDao() }
         bind() from singleton { instance<ForecastDatabase>().currentLocationDao() }
         bind<ToastMaker>() with singleton { ToastMakerImpl(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance(),instance())}
@@ -38,7 +39,7 @@ class ForecastApplication : Application(), KodeinAware {
         bind<LocationProvider>() with singleton{LocationProviderImpl(instance(),instance())}
         bind<LastLocation>() with singleton { LastLocationImpl(instance()) }
         bind<LastTimeDataFetched>() with singleton { LastTimeDataFetchedImpl(instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance(),instance(),instance(),instance(),instance()) }
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(),instance(),instance(),instance(),instance(),instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider{ CurrentWeatherViewModelFactory(instance(),instance()) }
         bind() from provider{ FutureListWeatherViewModelFactory(instance(),instance()) }

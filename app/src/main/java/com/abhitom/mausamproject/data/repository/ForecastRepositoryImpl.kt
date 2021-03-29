@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import com.abhitom.mausamproject.data.database.CurrentLocationDao
 import com.abhitom.mausamproject.data.database.CurrentWeatherDao
 import com.abhitom.mausamproject.data.database.FutureWeatherDao
+import com.abhitom.mausamproject.data.database.HourlyWeatherDao
 import com.abhitom.mausamproject.data.database.entity.Current
 import com.abhitom.mausamproject.data.database.entity.DailyItem
+import com.abhitom.mausamproject.data.database.entity.HourlyItem
 import com.abhitom.mausamproject.data.database.entity.ReverseGeoCodingApiResponse
 import com.abhitom.mausamproject.data.network.WeatherNetworkDataSource
 import com.abhitom.mausamproject.data.network.response.OneCallResponse
@@ -24,13 +26,15 @@ class ForecastRepositoryImpl(
         private val lastLocation: LastLocation,
         private val locationProvider: LocationProvider,
         private val futureWeatherDao: FutureWeatherDao,
-        private val currentLocationDao: CurrentLocationDao
+        private val currentLocationDao: CurrentLocationDao,
+        private val hourlyWeatherDao: HourlyWeatherDao
 ) : ForecastRepository {
 
     init {
         weatherNetworkDataSource.downloadedWeather.observeForever{newCurrentWeather ->
             persistFetchedCurrentWeather(newCurrentWeather)
             persistFetchedFutureWeather(newCurrentWeather)
+            persistFetchedHourlyWeather(newCurrentWeather)
         }
         weatherNetworkDataSource.downloadedLocation.observeForever { newCurrentLocation ->
             persistFetchedCurrentLocation(newCurrentLocation)
@@ -55,6 +59,13 @@ class ForecastRepositoryImpl(
         return withContext(Dispatchers.IO){
             initWeatherData(units)
             return@withContext currentLocationDao.getLocation()
+        }
+    }
+
+    override suspend fun getHourlyWeather(units: String): LiveData<out List<HourlyItem>> {
+        return withContext(Dispatchers.IO) {
+            initWeatherData(units)
+            return@withContext hourlyWeatherDao.getHourlyWeather()
         }
     }
 
@@ -94,6 +105,14 @@ class ForecastRepositoryImpl(
             deleteOldForecastData()
             lastTimeDataFetched.setCurrentLastTime(System.currentTimeMillis())
             futureWeatherDao.upsert(fetchedWeather.daily!!)
+        }
+    }
+
+    private fun persistFetchedHourlyWeather(fetchedWeather: OneCallResponse) {
+        GlobalScope.launch(Dispatchers.IO) {
+            hourlyWeatherDao.deleteOldEntries()
+            lastTimeDataFetched.setCurrentLastTime(System.currentTimeMillis())
+            hourlyWeatherDao.upsert(fetchedWeather.hourly!!)
         }
     }
 
