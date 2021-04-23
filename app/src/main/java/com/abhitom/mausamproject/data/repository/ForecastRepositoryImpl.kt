@@ -36,6 +36,9 @@ class ForecastRepositoryImpl(
             persistFetchedFutureWeather(newCurrentWeather)
             persistFetchedHourlyWeather(newCurrentWeather)
         }
+        weatherNetworkDataSource.downloadedWeatherImperial.observeForever { newCurrentWeather ->
+            persistFetchedCurrentWeather(newCurrentWeather)
+        }
         weatherNetworkDataSource.downloadedLocation.observeForever { newCurrentLocation ->
             persistFetchedCurrentLocation(newCurrentLocation)
         }
@@ -44,7 +47,11 @@ class ForecastRepositoryImpl(
     override suspend fun getCurrentWeather(units:String): LiveData<Current> {
         return withContext(Dispatchers.IO) {
             initWeatherData(units)
-            return@withContext currentWeatherDao.getWeather()
+            if(units=="metric") {
+                return@withContext currentWeatherDao.getWeather()
+            }else{
+                return@withContext currentWeatherDao.getWeatherImperial()
+            }
         }
     }
 

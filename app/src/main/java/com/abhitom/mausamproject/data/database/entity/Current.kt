@@ -5,9 +5,12 @@ import com.abhitom.mausamproject.internal.Converters
 import com.google.gson.annotations.SerializedName
 
 const val CURRENT_WEATHER_ID = 0
+const val CURRENT_WEATHER_ID_IMPERIAL = 1
 
 @Entity(tableName = "current_weather")
 data class Current(
+        @PrimaryKey(autoGenerate = false)
+        var id:Int? = null,
 
         @field:SerializedName("sunrise")
         val sunrise: Long? = null,
@@ -49,10 +52,9 @@ data class Current(
         @field:SerializedName("wind_speed")
         val windSpeed: Double? = null
 ){
-    @PrimaryKey(autoGenerate = false)
-    var id:Int = CURRENT_WEATHER_ID
 
-    constructor() : this(0, 0.0, 0, 0.0, 0, 0, 0.0, 0, 0, 0 , mutableListOf(), 0, 0.0)
+
+    constructor() : this(0,0, 0.0, 0, 0.0, 0, 0, 0.0, 0, 0, 0 , mutableListOf(), 0, 0.0)
 }
 
 

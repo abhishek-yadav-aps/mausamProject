@@ -6,6 +6,7 @@ import com.abhitom.mausamproject.data.network.response.OneCallResponse
 
 interface WeatherNetworkDataSource {
     val downloadedWeather: LiveData<OneCallResponse>
+    val downloadedWeatherImperial: LiveData<OneCallResponse>
     val downloadedLocation: LiveData<ReverseGeoCodingApiResponse>
 
     fun fetchWeather(
